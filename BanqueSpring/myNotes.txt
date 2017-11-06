@@ -1,0 +1,141 @@
+1.creation des entites
+2.generation de la BD
+3.creation des interfaces JpaRepository qui vont faire appels a Spring Data:
+	1.creer les entites
+	2.creer les interface qui heritent de "JpaRepository" de "springframework.data.."
+	reutiliser toutes les fonctionalites : create, update, delete.. : implementées par "springframework.data.."
+	=>springframework.data va injecter les implementations des interfaces qui heritent de "JpaRepository"
+	3.creer la couche metier: 
+		1.creer une Interface metier
+		2.creer une implementation de cette interfaceMetier : "@Service" :utiliser le EntityRepository => ..
+		
+	4.creer les MicroServices : j'aurai besoin ici du Service dans la couche metier=> qui implements l'interfc de metier
+	
+	
+	
+---------------------------
+@RestController : 
+	
+	
+	//POST => les donnees sont envoyees en format JSON
+		//=>@RequestBody 3al Param : indiquer a Spring qu'il doit 
+		//	1.recuperer donnees de ce param dans le corps de la requete en format JSON
+		//	2.puis les serializer
+	
+	ya : 
+		1.@RequestBody : 3al param ===>> sinon il va pas ajouter la valeur du param ajouter ...jarebha w chouf BD
+		2.@ResponseBody : 3al methode ==> puisque c un RestController j'ai pas besoin de le preciser =>  
+	
+	
+--------------------------------------
+Jackson :  MApping Objet JSON : Serialisation 
+	(<=> GSON (API Google) MApping Objet JSON) 
+	(<=> JacksB (7aja haka.) MApping Objet XML) 
+	(<=> Hibernate :MApping Objet Relationnel)
+	- ds les specifications JAVA y a pas d'implementation qui fait le mapping Objet/JSON
+		 ==>"Maven Dependencies" : Jackson...
+
+==>  @RequestBody (3al param) : 
+	je dis a Jackson qu'il doit recuperer des donnees JSON et les stocker ds un Objet 
+expl:: @RequestBody 3al param : kenet bech timchi mrigla ama :
+	Probleme: wa9t "class abstract Compte"==> maya3rech win ech y7otou l"objet"
+	Solution: penser a indiquer "type"( anehi l classe fille li bech y7ot faha l'instance jdida)
+
+----------------------------------
+@DiscriminatorComumn && @DiscriminatorValue (3la l class) ==>>> Mapping Objet Relationnel
+@JsonTypeInfo  &&  @JsonSubTypes  (3la l class) 
+
+
+*****************************************************************************
+****************************SOAP*********************************************
+1.deployer le service SOAP :
+	1.dans un fichier xml : spring-beans-config.xml
+		1.creer un spring-beans configuration file ds resources: spring-beans-config.xml
+		2.on demande a spring de creer un bean de la classe "SimpleJaxWsServiceExporter" au demarrage (pour deployer un webservice )
+		3.proprietes :
+			1.on lui donne un nom
+			2.n donne l'adresse sur laquelle on va l'exposer : ce webservice va etre accessible via cette @
+			3....
+		SimpleJaxWsServiceExporter qd il va etre instancie :
+			il va chercher les composants avec "@WebService" : puis il va le deployer
+		4.integrer  le fichier xml:
+			1.@ImportResource("spring-beans-config.xml") ===> sur la classe : BanqueSpringApplication.java
+		5.  http://localhost:8002/Banque?wsdl
+	2.dans une classe java : MyConfig
+		1.mm travail mais en java 
+		2...
+		3.  http://localhost:8003/Banque?wsdl
+
+2. pour tester ce webservice on a besoin d1 analyseur soap
+
+
+ 
+*****************************************************************************
+****************************RMI*********************************************
+1.Interface pour les methodes exposees via RMI  :
+	public interface IBanqueRmiRemote extends Remote
+2.implementation de cette interface:
+	@Component("myRmiService")
+	public class BanqueRmiImpl implements IBanqueRmiRemote {
+	
+2.deployer le service RMI :
+
+
+	1.dans un fichier xml :
+	
+	2.dans la classe java : MyConfig
+		1.mm travail que ds xml  mais en java (meme que pour le SOAP aussi)
+		2.on lui donne LE port 8004 et l'interface des methodes..
+			voir package "tn.mine.banque.rmi" et la classe de config "MyConfig"
+
+
+2. pour tester le service RMI on crée un client RMI (client java ) :"java project" faha Class bil "main"
+ 	le client RMi a besion de l'interface Remote et des entites..,
+ 	donc on set le java build path : on ajoute le projet BanqueSpring 
+ 	
+
+
+******************************************************************************
+**************************Client-Web************************************************
+1.Angular 1 <=> AngularJS : $scope depricated .... :/ ma3malna chay
+
+
+
+			
+			2.ToDo :
+				1.testes : usecases : 
+					comptes	
+					soldes, 
+					zid les employes : hna ppar defaut dima codeEmploye=1 
+					...
+				2.+ inetrfaces
+				3.+functionalites
+				4. ...
+				5.separer  les:
+					errorMessage
+					montant de differentes op
+					...
+				6.screenshots
+
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*********************** lezem  tsala7  w  t3awed ***********************************
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+*************************************************************************************
+
+pour  deployer :
+1.jar: par defaut f pom.xml 
+	run as => maven build => package      <=>  (mvn package : compile=> testes unitaires=> package :jar)
+2.war
+
+
+	
+	
+	
+	
+	
+	
